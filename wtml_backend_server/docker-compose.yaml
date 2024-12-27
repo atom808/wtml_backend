@@ -1,0 +1,56 @@
+version: '3.7'
+
+services:
+  # Development services
+  postgres:
+    image: postgres:16.3
+    ports:
+      - '8090:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: wtml_backend
+      POSTGRES_PASSWORD: "Ofji-sA-e_yRP601BaRk8ZMA9e1cw7Vk"
+    volumes:
+      - wtml_backend_data:/var/lib/postgresql/data
+    profiles:
+      - '' # Default profile
+      - dev
+  redis:
+    image: redis:6.2.6
+    ports:
+      - '8091:6379'
+    command: redis-server --requirepass "y5fJ_A7P_Hn1IHi3LgEc_yxHWaMicSvU"
+    environment:
+      - REDIS_REPLICATION_MODE=master
+    profiles:
+      - '' # Default profile
+      - dev
+
+  # Test services
+  postgres_test:
+    image: postgres:16.3
+    ports:
+      - '9090:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: wtml_backend_test
+      POSTGRES_PASSWORD: "ADtKtU0v9O6FECSDUSGLa1bYj06GVMMu"
+    volumes:
+      - wtml_backend_test_data:/var/lib/postgresql/data
+    profiles:
+      - '' # Default profile
+      - test
+  redis_test:
+    image: redis:6.2.6
+    ports:
+      - '9091:6379'
+    command: redis-server --requirepass "rOPK4RQfpd_re3HS7sjj8lwF9VBcEmQf"
+    environment:
+      - REDIS_REPLICATION_MODE=master
+    profiles:
+      - '' # Default profile
+      - test
+
+volumes:
+  wtml_backend_data:
+  wtml_backend_test_data:
